@@ -35,22 +35,21 @@ const options = {
 flatpickr(refs.inputText, options);
 
 refs.btnStart.addEventListener('click', () => {
-    if (dataSelected)
+    refs.btnStart.setAttribute('disabled', '')
 
-        setInterval(() => {
-            const data = new Date();
+    setInterval(() => {
+        const data = new Date();
 
-            const ms = dataSelected - data
+        const ms = dataSelected - data
+        if (ms >= 0) {
+            const { days, hours, minutes, seconds } = convertMs(ms)
 
-            if (ms !== 0) {
-                const { days, hours, minutes, seconds } = convertMs(ms)
-
-                refs.timerValue[0].textContent = `${days}`;
-                refs.timerValue[1].textContent = addLeadingZero(`${hours}`);
-                refs.timerValue[2].textContent = addLeadingZero(`${minutes}`);
-                refs.timerValue[3].textContent = addLeadingZero(`${seconds}`);
-            }
-        }, 1000);
+            refs.timerValue[0].textContent = `${days}`;
+            refs.timerValue[1].textContent = addLeadingZero(`${hours}`);
+            refs.timerValue[2].textContent = addLeadingZero(`${minutes}`);
+            refs.timerValue[3].textContent = addLeadingZero(`${seconds}`);
+        }
+    }, 1000);
 
 })
 
