@@ -1,6 +1,8 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 
+// import Notiflix from 'notiflix';
+
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 let dataSelected;
@@ -22,22 +24,11 @@ const options = {
         const data = new Date();
 
         if (data.getTime() > dataSelected.getTime()) {
-            console.log("tak");
-
-            Notiflix.Notify.success('Sol lucet omnibus');
-
-            Notiflix.Notify.failure('Qui timide rogat docet negare');
-
-            Notiflix.Notify.warning('Memento te hominem esse');
-
-            Notiflix.Notify.info('Cogito ergo sum');
-
+            Notify.failure('"Please choose a date in the future"');
         } else {
-            refs.btnStart.removeAttribute('disabled')
+            Notify.success('You can start a timer.');
+            refs.btnStart.removeAttribute('disabled');
         }
-
-        console.log(dataSelected.getTime());
-        console.log(data.getTime());
     },
 };
 
@@ -51,12 +42,14 @@ refs.btnStart.addEventListener('click', () => {
 
             const ms = dataSelected - data
 
-            const { days, hours, minutes, seconds } = convertMs(ms)
+            if (ms !== 0) {
+                const { days, hours, minutes, seconds } = convertMs(ms)
 
-            refs.timerValue[0].textContent = `${days}`;
-            refs.timerValue[1].textContent = addLeadingZero(`${hours}`);
-            refs.timerValue[2].textContent = addLeadingZero(`${minutes}`);
-            refs.timerValue[3].textContent = addLeadingZero(`${seconds}`);
+                refs.timerValue[0].textContent = `${days}`;
+                refs.timerValue[1].textContent = addLeadingZero(`${hours}`);
+                refs.timerValue[2].textContent = addLeadingZero(`${minutes}`);
+                refs.timerValue[3].textContent = addLeadingZero(`${seconds}`);
+            }
         }, 1000);
 
 })
